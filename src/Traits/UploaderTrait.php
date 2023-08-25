@@ -55,9 +55,9 @@ trait UploaderTrait{
     private $folder;
     
     /**
-     * Image
+     * file
      */
-    private $image;
+    private $file;
     
     /**
      * Image Compressor Settings
@@ -70,7 +70,7 @@ trait UploaderTrait{
     private $success = false;
 
     /**
-     * image upload run
+     * file upload run
      */
     private $send = false;
 

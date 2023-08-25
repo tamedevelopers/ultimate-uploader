@@ -28,10 +28,5 @@
         },
         "classmap": ["src/*"]
     },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "2.2.2-dev"
-        }
-    },
-    "minimum-stability": "dev"
+    "minimum-stability": "stable"
 }

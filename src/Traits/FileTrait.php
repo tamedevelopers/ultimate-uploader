@@ -176,21 +176,40 @@ trait FileTrait{
         }
         return;
     }
-
+    
     /**
      * filter error to remove unwanted error response
+     *
+     * @param  array $errorDisallowed
+     * @return void
+     * 
+     * 400 => ERROR_400 - no file upload",
+     * 401 => ERROR_401 - select file to upload",
+     * 402 => ERROR_402 - File upload size is bigger than allowed size limit",
+     * 403 => ERROR_403 - Maximum file allowed exceeded ",
+     * 404 => ERROR_404 - Uploaded file format not allowed",
+     * 405 => ERROR_405 - Image size allowed error",
+     * 500 => ERROR_500 - Input file `name[]` must be passed as an array"
+     * 
+     * @return $this
      */
-    private function filterError($errorDisallowed)
+    public function filterError($errorDisallowed = [])
     {
         if(is_array($errorDisallowed) && count($errorDisallowed) > 0){
 
             foreach($errorDisallowed as $value){
+                // convert to int values
+                $value = (int) $value;
+
+                // if in error array keys
                 if(in_array($value, array_keys($this->error) )){
-                    if($value != '500')
+                    if($value != 500)
                         unset($this->error[$value]);
                 }
             }
         }
+
+        return $this;
     }
 
     /**

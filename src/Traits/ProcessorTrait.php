@@ -122,7 +122,7 @@ trait ProcessorTrait{
             foreach($this->folder as $key => $folder_val)
             {
                 //Loop through image
-                foreach($this->image as $i_key => $i_val)
+                foreach($this->file as $i_key => $i_val)
                 {
                     //Get file extension
                     $file_extension = strtolower(pathinfo($i_val, PATHINFO_EXTENSION));
@@ -182,7 +182,7 @@ trait ProcessorTrait{
             foreach($this->folder as $key => $folder_val)
             {
                 //Loop through image
-                foreach($this->image as $i_key => $i_val)
+                foreach($this->file as $i_key => $i_val)
                 {
                     //Get file extension
                     $file_extension = strtolower(pathinfo($i_val, PATHINFO_EXTENSION));

@@ -2,10 +2,10 @@
 
 namespace ultimateUploader;
 
-use ImgCompressor\ImgCompressor;
+use ultimateUploader\ImgCompressor;
 use ultimateUploader\Traits\FileTrait;
-use ultimateUploader\Traits\ProcessorTrait;
 use ultimateUploader\Traits\uploaderTrait;
+use ultimateUploader\Traits\ProcessorTrait;
 
 /***********************************************************
 * #### PHP - Ultimate Image Uploader Class ####
@@ -13,7 +13,9 @@ use ultimateUploader\Traits\uploaderTrait;
 
 class ultimateUploader{
     
-    use UploaderTrait, FileTrait, ProcessorTrait;
+    use UploaderTrait, 
+        FileTrait, 
+        ProcessorTrait;
     
     
     /**
@@ -258,8 +260,8 @@ class ultimateUploader{
                         
                         if(in_array($file_type, $this->allowedType()['mime'][$type])){    
                             if( move_uploaded_file($file_tmp_name, $storage['filePath']) ){
-                                array_push($this->internal['data'], $new_gen_file['name']); //new uploaded - generated image
-                                array_push($this->internal['raw_upload'], $file_name); //raw image file name
+                                array_push($this->internal['data'], $new_gen_file['name']); // new uploaded - generated file
+                                array_push($this->internal['raw_upload'], $file_name); //raw file name
                                 
                                 array_push($this->internal['folder_upload'], $storage['folderPath']); // folder upload path
                                 array_push($this->internal['folder_real_path'], dirname($storage['filePath']) . "/{$new_gen_file['name']}"); // folder real upload path
@@ -275,15 +277,13 @@ class ultimateUploader{
             if($this->send && $this->success){
                 //add to instance of this for internal space usage
                 $this->folder = $this->internal['folder_real_path'];
-                $this->image = $this->internal['data'];
+                $this->file = $this->internal['data'];
                 $this->settings = dirname($storage['filePath']); //compressed dir path
 
                 $this->data = [
                     "status"    => $this->error['200'], 
                     "message"   => sprintf("%s <br> Uploaded successfully <br>", $fileUploadName), 
                     "file"      => [
-                        "image"             => $this->internal['raw_upload'],  
-                        "new_image"         => $this->internal['data'],
                         "file"             => $this->internal['raw_upload'],  
                         "new_file"         => $this->internal['data'],
                         "folder"            => $this->internal['folder_upload'],
@@ -353,10 +353,10 @@ class ultimateUploader{
 
             $ImgCompressor = new ImgCompressor($this->settings);
             if(!is_null($this->folder)){
-                //Loop through folder images
+                // Loop through folder images
                 foreach($this->folder as $key => $folder_val){
-                    //Loop through image
-                    foreach($this->image as $i_key => $i_val){
+                    // Loop through image
+                    foreach($this->file as $i_key => $i_val){
                         $ImgCompressor->run($folder_val, pathinfo($i_val, PATHINFO_EXTENSION), 5);
                     }
     
@@ -375,10 +375,8 @@ class ultimateUploader{
         $data = $this->data['file'];
 
         // return only first data
-        if(isset($data['image'][0])){
+        if(isset($data['file'][0])){
             return [
-                'image' => $data['image'][0],
-                'new_image' => $data['new_image'][0],
                 'file' => $data['file'][0],
                 'new_file' => $data['new_file'][0],
                 'folder' => $data['folder'][0],
